@@ -1,21 +1,32 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Untitled Document</title>
     <script src="socketioJS/socket.io.min.js"></script>
-<script>
-  var socket = io.connect('http://localhost:8001');
-  socket.on('sensorValue', function (data) {
-    console.log(data);
-      document.getElementById("sensorValue").innerHTML = data;
-    socket.emit('my other event', { my: 'data' });
-  });
-</script>
+    <script>
+        var socket = io.connect('http://localhost:8001');
+        var JSONdata;
+        socket.on('sensorValue', function(data) {
+            console.log(data);
+            JSONdata = JSON.parse(data);
+            document.getElementById("sensorValue1").innerHTML = JSONdata.analogRead1;
+            document.getElementById("sensorValue2").innerHTML = JSONdata.analogRead2;
+            document.getElementById("sensorValue3").innerHTML = JSONdata.analogRead3;
+            document.getElementById("sensorValue4").innerHTML = JSONdata.analogRead4;
+            
+        });
+    </script>
 </head>
+
 <body>
-<p id="sensorValue" style="font-size:2000%">test</p>
+    <p id="sensorValue1" style="font-size:2000%">sensorValue1</p>
+    <p id="sensorValue2" style="font-size:2000%">sensorValue2</p>
+    <p id="sensorValue3" style="font-size:2000%">sensorValue3</p>
+    <p id="sensorValue4" style="font-size:2000%">sensorValue4</p>
 
 
 </body>
+
 </html>
