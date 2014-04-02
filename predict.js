@@ -4,11 +4,14 @@ var io = require('socket.io').listen(8001);
 io.set('log level', 1);
 var fs = require('fs');
 var filepath = '\/Volumes\/RamDisk\/';
+var trainInputPath;
+var testDataPath = '\/Volumes\/RamDisk\/testData';
+var modelPath;
+var outputPath = '\/Volumes\/RamDisk\/output.out';
 var sys = require('sys');
 var exec = require('child_process').exec;
 var child;
 var start = false;
-var testData;
 
 io.sockets.on('connection', function (socket) {
     //    setInterval(function(){}, 2000);
@@ -20,9 +23,9 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('filename', function (data) {
       if(data != ""){
-        filepath = filepath + data.filename;
-          console.log(filepath);
-          writeToFile("");
+        trainInputPath = filepath + data.filename;
+          console.log(trainInputPath);
+          writeToFile("", trainInputPath);
       }else{
         console.log("no filename");
       }
@@ -31,20 +34,26 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('modelname', function (data) {
         if (data != "") {
-            filepath = filepath + data.modelname;
+            modelPath = filepath + data.modelname;
             start = true;
         } else {
             console.log("no modelname");
         }
         console.log(data);
     });
+    
     socket.on('record', function (data) {
+      appendToFile(data.record + "\n", trainInputPath);
+      console.log(data);
+  });
+    
+    socket.on('predictData', function (data) {
         if (start == true) {
-            writeToFile(data.record);
-            console.log(fs.readFileSync("/Volumes/RamDisk/libsvm-3.17/test2").toString());
-            child = exec("/Volumes/RamDisk/libsvm-3.17/svm-predict -b 1 /Volumes/RamDisk/libsvm-3.17/test2 /Volumes/RamDisk/libsvm-3.17/test1.model /Volumes/RamDisk/libsvm-3.17/test1.out", function (error, stdout, stderr) {
-                console.log(fs.readFileSync("/Volumes/RamDisk/libsvm-3.17/test1.out").toString().split('\n')[0]);
-                socket.emit('result', { result: fs.readFileSync("/Volumes/RamDisk/libsvm-3.17/test1.out").toString().split('\n')[0] });
+            writeToFile(data.predictData, testDataPath);
+            console.log(fs.readFileSync(testDataPath).toString());
+            child = exec('/Volumes/RamDisk/libsvm-3.17/svm-predict ' + testDataPath + ' ' + modelPath + ' ' + outputPath, function (error, stdout, stderr) {
+                console.log(fs.readFileSync(outputPath).toString().split('\n')[0]);
+                socket.emit('result', { result: fs.readFileSync(outputPath).toString().split('\n')[0] });
                 //                            sys.print('stdout: ' + stdout);
                 if (error !== null) {
                     console.log('exec error: ' + error);
@@ -64,11 +73,11 @@ var sp1 = new SerialPort(portName1, {
     parser: serial.parsers.readline("\n")
 });
 
-function writeToFile(data) {
+function writeToFile(data, filepath) {
 //    fs.writeFileSync("/Volumes/RamDisk/libsvm-3.17/IRarray", data);
     fs.writeFileSync(filepath, data);
 }
 
-function appendToFile(data) {
+function appendToFile(data, filepath) {
     fs.appendFileSync(filepath, data);
 }
