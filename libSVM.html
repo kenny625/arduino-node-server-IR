@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SVM</title>
+    <script src="socketioJS/socket.io.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+
+    <style>
+        div > p{
+            display: inline;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p id="sensorValue12" style="font-size:200%">sensorValue12</p>
+        <p id="sensorValue10" style="font-size:200%">sensorValue10</p>
+        <p id="sensorValue8" style="font-size:200%">sensorValue8</p>
+        <p id="sensorValue6" style="font-size:200%">sensorValue6</p>
+        <p id="sensorValue4" style="font-size:200%">sensorValue4</p>
+        <p id="sensorValue2" style="font-size:200%">sensorValue2</p>
+    </div>
+    <div>
+        <p id="sensorValue11" style="font-size:200%">sensorValue11</p>
+        <p id="sensorValue9" style="font-size:200%">sensorValue9</p>
+        <p id="sensorValue7" style="font-size:200%">sensorValue7</p>
+        <p id="sensorValue5" style="font-size:200%">sensorValue5</p>
+        <p id="sensorValue3" style="font-size:200%">sensorValue3</p>
+        <p id="sensorValue1" style="font-size:200%">sensorValue1</p>
+    </div>
+    <p>Training File name</p>
+        <input type="text" name="filename">
+        <button id="startBtn" type="button" class="btn btn-default">Start</button>
+        <p>Key</p>
+        <select id="keySelected" class="form-control">
+            <option value="1">Q</option>
+            <option value="2">W</option>
+            <option value="3">E</option>
+            <option value="4">R</option>
+            <option value="5">T</option>
+            <option value="6">Y</option>
+            <option value="7">U</option>
+            <option value="8">I</option>
+            <option value="9">O</option>
+            <option value="10">P</option>
+            <option value="11">A</option>
+            <option value="12">S</option>
+            <option value="13">D</option>
+            <option value="14">F</option>
+            <option value="14">G</option>
+            <option value="14">H</option>
+            <option value="14">J</option>
+            <option value="14">K</option>
+            <option value="14">L</option>
+            <option value="14">Z</option>
+            <option value="14">X</option>
+            <option value="14">C</option>
+            <option value="14">V</option>
+            <option value="14">B</option>
+            <option value="14">N</option>
+            <option value="14">M</option>
+
+        </select>
+        <span>count: </span>
+        <span id="count">0</span>
+        <br>
+        <button id="recordBtn" type="button" class="btn btn-default">Record</button>
+        <p id="recordStatus"></p>
+
+
+
+
+    <script>
+        var socket = io.connect('http://localhost:8001');
+        var JSONdata, sensorValue1, sensorValue2, sensorValue3, sensorValue4, sensorValue5, sensorValue6, sensorValue7, sensorValue8, sensorValue9, sensorValue10, sensorValue11, sensorValue12;
+        var trainingSetCount = new Array();
+        
+        resetCountArray();
+        
+        
+        socket.on('sensorValue', function(data) {
+//            console.log(data);
+            JSONdata = JSON.parse(data);
+            sensorValue1 =JSONdata.analogRead1;
+            sensorValue2 =JSONdata.analogRead2;
+            sensorValue3 =JSONdata.analogRead3;
+            sensorValue4 =JSONdata.analogRead4;
+            sensorValue5 =JSONdata.analogRead5;
+            sensorValue6 =JSONdata.analogRead6;
+            sensorValue7 =JSONdata.analogRead7;
+            sensorValue8 =JSONdata.analogRead8;
+            sensorValue9 =JSONdata.analogRead9;
+            sensorValue10 =JSONdata.analogRead10;
+            sensorValue11 =JSONdata.analogRead11;
+            sensorValue12 =JSONdata.analogRead12;
+            document.getElementById("sensorValue1").innerHTML = sensorValue1;
+            document.getElementById("sensorValue2").innerHTML = sensorValue2;
+            document.getElementById("sensorValue3").innerHTML = sensorValue3;
+            document.getElementById("sensorValue4").innerHTML = sensorValue4;
+            document.getElementById("sensorValue5").innerHTML = sensorValue5;
+            document.getElementById("sensorValue6").innerHTML = sensorValue6;
+            document.getElementById("sensorValue7").innerHTML = sensorValue7;
+            document.getElementById("sensorValue8").innerHTML = sensorValue8;
+            document.getElementById("sensorValue9").innerHTML = sensorValue9;
+            document.getElementById("sensorValue10").innerHTML = sensorValue10;
+            document.getElementById("sensorValue11").innerHTML = sensorValue11;
+            document.getElementById("sensorValue12").innerHTML = sensorValue12;
+
+        });
+        
+        $("#startBtn").click(function(){
+//            resetCountArray();
+            socket.emit('filename', { filename: $("input[name='filename']").val() });
+        });
+        
+        $("#recordBtn").click(function() {
+            console.log($("#keySelected option:selected").html());
+            var recordString = $("#keySelected").val() + " 0:" + Number(yaw1 - yaw2) + " 1:" + Number(pitch1 - pitch2) + " 2:" + Number(roll1 - roll2);
+            $("#recordStatus").html(recordString);
+            socket.emit('record', { record: recordString });
+            trainingSetCount[$("#keySelected option:selected").html()] = trainingSetCount[$("#keySelected option:selected").html()] + 1;
+            $("#count").html(trainingSetCount[$("#keySelected option:selected").html()]);
+console.log(trainingSetCount);
+
+        });
+        
+        $("#keySelected").change(function(){
+            $("#count").html(trainingSetCount[$("#keySelected option:selected").html()])
+console.log(trainingSetCount);
+        });
+        
+        function resetCountArray(){
+            for(i=0;i<$("#keySelected > option").length;i++){
+            trainingSetCount[$("#keySelected" + " option:eq(" + i +")").text()] = 0;
+            }
+        }
+        
+    </script>
+
+
+</body>
+
+</html>

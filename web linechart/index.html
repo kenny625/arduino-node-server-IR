@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script src="socketioJS/socket.io.min.js"></script>
+    <script type="text/javascript" src="wz_jsgraphics.js"></script>
+	<script type="text/javascript" src="line.js">
+
+	<!-- Line Graph script-By Balamurugan S http://www.sbmkpm.com/ //-->
+	<!-- Script featured/ available at Dynamic Drive code: http://www.dynamicdrive.com //-->
+
+	</script>
+
+    <script>
+        var socket = io.connect('http://localhost:8001');
+        var JSONdata;
+        var i = 0;
+        var g1 = new line_graph();
+        var g2 = new line_graph();
+        var g3 = new line_graph();
+        var g4 = new line_graph();
+        var g5 = new line_graph();
+        var g6 = new line_graph();
+        var g7 = new line_graph();
+        var g8 = new line_graph();
+        var g9 = new line_graph();
+        var g10 = new line_graph();
+        var g11 = new line_graph();
+        var g12 = new line_graph();
+        var pause = 0;
+        socket.on('sensorValue', function(data) {
+
+            console.log(data);
+            JSONdata = JSON.parse(data);
+//            document.getElementById("sensorValue1").innerHTML = JSONdata.analogRead1;
+//            document.getElementById("sensorValue2").innerHTML = JSONdata.analogRead2;
+//            document.getElementById("sensorValue3").innerHTML = JSONdata.analogRead3;
+//            document.getElementById("sensorValue4").innerHTML = JSONdata.analogRead4;
+//            document.getElementById("sensorValue5").innerHTML = JSONdata.analogRead5;
+//            document.getElementById("sensorValue6").innerHTML = JSONdata.analogRead6;
+//            document.getElementById("sensorValue7").innerHTML = JSONdata.analogRead7;
+//             if(i++%2==1){
+			i++;
+			document.getElementById("dataLength").innerHTML = i;
+if(i%200 == 0){
+				g1 = g1.clear();
+				g2 = g2.clear();
+				g3 = g3.clear();
+				g4 = g4.clear();
+                g5 = g5.clear();
+				g6 = g6.clear();
+				g7 = g7.clear();
+				g8 = g8.clear();
+				g9 = g9.clear();
+				g10 = g10.clear();
+				g11 = g11.clear();
+                g12 = g12.clear();
+				g1 = new line_graph();
+				g2 = new line_graph();
+				g3 = new line_graph();
+				g4 = new line_graph();
+                g5 = new line_graph();
+				g6 = new line_graph();
+				g7 = new line_graph();
+				g8 = new line_graph();
+				g9 = new line_graph();
+				g10 = new line_graph();
+				g11 = new line_graph();
+				g12 = new line_graph();
+			}
+			
+				g1.add(i%10, JSONdata.analogRead1);
+				g2.add(i%10, JSONdata.analogRead2);
+				g3.add(i%10, JSONdata.analogRead3);
+				g4.add(i%10, JSONdata.analogRead4);
+			    g5.add(i%10, JSONdata.analogRead5);
+				g6.add(i%10, JSONdata.analogRead6);
+				g7.add(i%10, JSONdata.analogRead7);	
+                g8.add(i%10, JSONdata.analogRead8);
+				g9.add(i%10, JSONdata.analogRead9);
+				g10.add(i%10, JSONdata.analogRead10);
+				g11.add(i%10, JSONdata.analogRead11);
+			    g12.add(i%10, JSONdata.analogRead12);
+            
+            
+// 				var canvas = document.getElementById("lineCanvas1");
+//  				var ctx = canvas.getContext('2d');
+				// Store the current transformation matrix
+// 				ctx.save();
+// 
+// 				// Use the identity matrix while clearing the canvas
+// 				ctx.setTransform(1, 0, 0, 1, 0, 0);
+// 				ctx.clearRect(0, 0, canvas.width, canvas.height);
+// 
+// 				// Restore the transform
+// 				ctx.restore();
+				
+				if(pause == 0){
+					g1.render("lineCanvas1", " ");
+					g2.render("lineCanvas2", " ");
+					g3.render("lineCanvas3", " ");
+					g4.render("lineCanvas4", " ");
+                    g5.render("lineCanvas5", " ");
+					g6.render("lineCanvas6", " ");
+					g7.render("lineCanvas7", " ");
+					g8.render("lineCanvas8", " ");
+					g9.render("lineCanvas9", " ");
+					g10.render("lineCanvas10", " ");
+					g11.render("lineCanvas11", " ");
+					g12.render("lineCanvas12", " ");
+				}
+
+				document.getElementById("lineCanvas1").scrollLeft = document.getElementById("lineCanvas1").scrollWidth;
+				document.getElementById("lineCanvas2").scrollLeft = document.getElementById("lineCanvas2").scrollWidth;
+				document.getElementById("lineCanvas3").scrollLeft = document.getElementById("lineCanvas3").scrollWidth;
+				document.getElementById("lineCanvas4").scrollLeft = document.getElementById("lineCanvas4").scrollWidth;
+                document.getElementById("lineCanvas5").scrollLeft = document.getElementById("lineCanvas5").scrollWidth;
+				document.getElementById("lineCanvas6").scrollLeft = document.getElementById("lineCanvas6").scrollWidth;
+				document.getElementById("lineCanvas7").scrollLeft = document.getElementById("lineCanvas7").scrollWidth;
+				document.getElementById("lineCanvas8").scrollLeft = document.getElementById("lineCanvas8").scrollWidth;
+				document.getElementById("lineCanvas9").scrollLeft = document.getElementById("lineCanvas9").scrollWidth;
+				document.getElementById("lineCanvas10").scrollLeft = document.getElementById("lineCanvas10").scrollWidth;
+				document.getElementById("lineCanvas11").scrollLeft = document.getElementById("lineCanvas11").scrollWidth;
+				document.getElementById("lineCanvas12").scrollLeft = document.getElementById("lineCanvas12").scrollWidth;
+//             }
+
+        });
+        
+        
+        function Pause(){
+        	pause = 1;
+        }
+        function Play(){
+        	pause = 0;
+        }
+    </script>
+</head>
+
+<body>
+<!--
+    <p id="sensorValue1" style="font-size:400%">sensorValue1</p>
+    <p id="sensorValue2" style="font-size:400%">sensorValue2</p>
+    <p id="sensorValue3" style="font-size:400%">sensorValue3</p>
+    <p id="sensorValue4" style="font-size:400%">sensorValue4</p>
+    <p id="sensorValue5" style="font-size:400%">sensorValue5</p>
+    <p id="sensorValue6" style="font-size:400%">sensorValue6</p>
+    <p id="sensorValue7" style="font-size:400%">sensorValue7</p>
+-->
+
+	<div id="lineCanvas1" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas2" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas3" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas4" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+    <div id="lineCanvas5" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas6" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas7" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas8" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas9" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas10" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas11" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	<div id="lineCanvas12" style="overflow: scroll; position:relative;height:300px;width:2500px;"></div>
+	
+	<p id="dataLength" style="font-size:400%">data length</p>
+	<button onclick="Pause()">Pause</button>
+	<button onclick="Play()">Play</button>
+
+</body>
+
+</html>
