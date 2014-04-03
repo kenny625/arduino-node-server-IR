@@ -6,7 +6,9 @@ var fs = require('fs');
 var filepath = '\/Volumes\/RamDisk\/';
 var trainInputPath;
 var testDataPath = '\/Volumes\/RamDisk\/testData';
+var testDataScalePath = '\/Volumes\/RamDisk\/testDataScale';
 var modelPath;
+var scaleInputPath = '\/Volumes\/RamDisk\/scaleInput';
 var outputPath = '\/Volumes\/RamDisk\/output.out';
 var sys = require('sys');
 var exec = require('child_process').exec;
@@ -49,9 +51,18 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('predictData', function (data) {
         if (start == true) {
-            writeToFile(data.predictData, testDataPath);
-            console.log(fs.readFileSync(testDataPath).toString());
-            child = exec('/Volumes/RamDisk/libsvm-3.17/svm-predict ' + testDataPath + ' ' + modelPath + ' ' + outputPath, function (error, stdout, stderr) {
+            var lines = fs.readFileSync(trainInputPath);
+            writeToFile(lines, scaleInputPath);
+            appendToFile(data.predictData, scaleInputPath);
+            child = exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + scaleInputPath, function (error, stdout, stderr) {
+                var out = stdout.split('\n');
+                writeToFile(out[out.length - 2], testDataScalePath);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+            
+            child = exec('/Volumes/RamDisk/libsvm-3.17/svm-predict ' + testDataScalePath + ' ' + modelPath + ' ' + outputPath, function (error, stdout, stderr) {
                 console.log(fs.readFileSync(outputPath).toString().split('\n')[0]);
                 socket.emit('result', { result: fs.readFileSync(outputPath).toString().split('\n')[0] });
                 //                            sys.print('stdout: ' + stdout);

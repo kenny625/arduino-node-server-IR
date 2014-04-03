@@ -128,7 +128,7 @@
             document.getElementById("sensorValue11").innerHTML = sensorValue11;
             document.getElementById("sensorValue12").innerHTML = sensorValue12;
             
-            var recordString = "0 0:" + Number(sensorValue1) + " 1:" + Number(sensorValue2) + " 2:" + Number(sensorValue3)+ " 3:" + Number(sensorValue4) + " 4:" + Number(sensorValue5) + " 5:" + Number(sensorValue6)+ " 6:" + Number(sensorValue7) + " 7:" + Number(sensorValue8) + " 8:" + Number(sensorValue9)+ " 9:" + Number(sensorValue10) + " 10:" + Number(sensorValue11) + " 11:" + Number(sensorValue12);
+            var recordString = "0 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
             socket.emit('predictData', { predictData: recordString });
 
         });
@@ -140,7 +140,7 @@
         
         $("#recordBtn").click(function() {
             console.log($("#keySelected option:selected").html());
-            var recordString = $("#keySelected").val() + " 0:" + Number(sensorValue1) + " 1:" + Number(sensorValue2) + " 2:" + Number(sensorValue3)+ " 3:" + Number(sensorValue4) + " 4:" + Number(sensorValue5) + " 5:" + Number(sensorValue6)+ " 6:" + Number(sensorValue7) + " 7:" + Number(sensorValue8) + " 8:" + Number(sensorValue9)+ " 9:" + Number(sensorValue10) + " 10:" + Number(sensorValue11) + " 11:" + Number(sensorValue12);
+            var recordString = $("#keySelected").val() + " 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
             $("#recordStatus").html(recordString);
             socket.emit('record', { record: recordString });
             trainingSetCount[$("#keySelected option:selected").html()] = trainingSetCount[$("#keySelected option:selected").html()] + 1;
