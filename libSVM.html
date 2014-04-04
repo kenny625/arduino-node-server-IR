@@ -35,47 +35,48 @@
         <p id="sensorValue1" style="font-size:200%">sensorValue1</p>
     </div>
     <p>Training File name</p>
-        <input type="text" name="filename">
-        <button id="setnameBtn" type="button" class="btn btn-default">Set Name</button>
-        <p>Key</p>
-        <select id="keySelected" class="form-control">
-            <option value="1">Q</option>
-            <option value="2">W</option>
-            <option value="3">E</option>
-            <option value="4">R</option>
-            <option value="5">T</option>
-            <option value="6">Y</option>
-            <option value="7">U</option>
-            <option value="8">I</option>
-            <option value="9">O</option>
-            <option value="10">P</option>
-            <option value="11">A</option>
-            <option value="12">S</option>
-            <option value="13">D</option>
-            <option value="14">F</option>
-            <option value="15">G</option>
-            <option value="16">H</option>
-            <option value="17">J</option>
-            <option value="18">K</option>
-            <option value="19">L</option>
-            <option value="20">Z</option>
-            <option value="21">X</option>
-            <option value="22">C</option>
-            <option value="23">V</option>
-            <option value="24">B</option>
-            <option value="25">N</option>
-            <option value="26">M</option>
+    <input type="text" name="filename">
+    <button id="setnameBtn" type="button" class="btn btn-default">Set Name</button>
+    <p>Key</p>
+    <select id="keySelected" class="form-control">
+        <option value="1">Q</option>
+        <option value="2">W</option>
+        <option value="3">E</option>
+        <option value="4">R</option>
+        <option value="5">T</option>
+        <option value="6">Y</option>
+        <option value="7">U</option>
+        <option value="8">I</option>
+        <option value="9">O</option>
+        <option value="10">P</option>
+        <option value="11">A</option>
+        <option value="12">S</option>
+        <option value="13">D</option>
+        <option value="14">F</option>
+        <option value="15">G</option>
+        <option value="16">H</option>
+        <option value="17">J</option>
+        <option value="18">K</option>
+        <option value="19">L</option>
+        <option value="20">Z</option>
+        <option value="21">X</option>
+        <option value="22">C</option>
+        <option value="23">V</option>
+        <option value="24">B</option>
+        <option value="25">N</option>
+        <option value="26">M</option>
 
-        </select>
-        <span>count: </span>
-        <span id="count">0</span>
-        <br>
-        <button id="recordBtn" type="button" class="btn btn-default">Record</button>
-        <p id="recordStatus"></p>
-        <p>Model Name</p>
-        <input type="text" name="modelname">
-        <button id="startBtn" type="button" class="btn btn-default">Start</button>
-        <p id="result"></p>
+    </select>
+    <span>count:</span>
+    <span id="count">0</span>
+    <br>
+    <input type="text" name="countInput">
+    <button id="recordBtn" type="button" class="btn btn-default">Record</button>
+    <p id="recordStatus"></p>
+    <p>Model Name</p>
+    <input type="text" name="modelname">
+    <button id="startBtn" type="button" class="btn btn-default">Start</button>
+    <p id="result"></p>
 
 
 
@@ -84,37 +85,37 @@
         var socket = io.connect('http://localhost:8001');
         var JSONdata, sensorValue1, sensorValue2, sensorValue3, sensorValue4, sensorValue5, sensorValue6, sensorValue7, sensorValue8, sensorValue9, sensorValue10, sensorValue11, sensorValue12;
         var trainingSetCount = new Array();
-        
+
         resetCountArray();
-        
-        
+
+
         socket.on('sensorValue', function(data) {
-//            console.log(data);
+            //            console.log(data);
             JSONdata = JSON.parse(data);
-            if(JSONdata.analogRead1 > 0)
-            sensorValue1 =JSONdata.analogRead1;
-            if(JSONdata.analogRead2 > 0)
-            sensorValue2 =JSONdata.analogRead2;
-            if(JSONdata.analogRead3 > 0)
-            sensorValue3 =JSONdata.analogRead3;
-            if(JSONdata.analogRead4 > 0)
-            sensorValue4 =JSONdata.analogRead4;
-            if(JSONdata.analogRead5 > 0)
-            sensorValue5 =JSONdata.analogRead5;
-            if(JSONdata.analogRead6 > 0)
-            sensorValue6 =JSONdata.analogRead6;
-            if(JSONdata.analogRead7 > 0)
-            sensorValue7 =JSONdata.analogRead7;
-            if(JSONdata.analogRead8 > 0)
-            sensorValue8 =JSONdata.analogRead8;
-            if(JSONdata.analogRead9 > 0)
-            sensorValue9 =JSONdata.analogRead9;
-            if(JSONdata.analogRead10 > 0)
-            sensorValue10 =JSONdata.analogRead10;
-            if(JSONdata.analogRead11 > 0)
-            sensorValue11 =JSONdata.analogRead11;
-            if(JSONdata.analogRead12 > 0)
-            sensorValue12 =JSONdata.analogRead12;
+            if (JSONdata.analogRead1 > 0)
+                sensorValue1 = JSONdata.analogRead1;
+            if (JSONdata.analogRead2 > 0)
+                sensorValue2 = JSONdata.analogRead2;
+            if (JSONdata.analogRead3 > 0)
+                sensorValue3 = JSONdata.analogRead3;
+            if (JSONdata.analogRead4 > 0)
+                sensorValue4 = JSONdata.analogRead4;
+            if (JSONdata.analogRead5 > 0)
+                sensorValue5 = JSONdata.analogRead5;
+            if (JSONdata.analogRead6 > 0)
+                sensorValue6 = JSONdata.analogRead6;
+            if (JSONdata.analogRead7 > 0)
+                sensorValue7 = JSONdata.analogRead7;
+            if (JSONdata.analogRead8 > 0)
+                sensorValue8 = JSONdata.analogRead8;
+            if (JSONdata.analogRead9 > 0)
+                sensorValue9 = JSONdata.analogRead9;
+            if (JSONdata.analogRead10 > 0)
+                sensorValue10 = JSONdata.analogRead10;
+            if (JSONdata.analogRead11 > 0)
+                sensorValue11 = JSONdata.analogRead11;
+            if (JSONdata.analogRead12 > 0)
+                sensorValue12 = JSONdata.analogRead12;
             document.getElementById("sensorValue1").innerHTML = sensorValue1;
             document.getElementById("sensorValue2").innerHTML = sensorValue2;
             document.getElementById("sensorValue3").innerHTML = sensorValue3;
@@ -127,47 +128,75 @@
             document.getElementById("sensorValue10").innerHTML = sensorValue10;
             document.getElementById("sensorValue11").innerHTML = sensorValue11;
             document.getElementById("sensorValue12").innerHTML = sensorValue12;
-            
-            var recordString = "0 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
-            socket.emit('predictData', { predictData: recordString });
+
+                        var recordString = "0 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
+//            var recordString = "0" + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
+            socket.emit('predictData', {
+                predictData: recordString
+            });
 
         });
-        
-        $("#setnameBtn").click(function(){
+
+        $("#setnameBtn").click(function() {
             resetCountArray();
-            socket.emit('filename', { filename: $("input[name='filename']").val() });
+            socket.emit('filename', {
+                filename: $("input[name='filename']").val()
+            });
         });
-        
+
         $("#recordBtn").click(function() {
             console.log($("#keySelected option:selected").html());
-            var recordString = $("#keySelected").val() + " 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
-            $("#recordStatus").html(recordString);
-            socket.emit('record', { record: recordString });
-            trainingSetCount[$("#keySelected option:selected").html()] = trainingSetCount[$("#keySelected option:selected").html()] + 1;
-            $("#count").html(trainingSetCount[$("#keySelected option:selected").html()]);
-console.log(trainingSetCount);
+            var countInput = $("input[name='countInput']").val();
+            
+                var time = setInterval(function() {
+                    
+                    var recordString = $("#keySelected").val() + " 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
+                    
+//                    var recordString = $("#keySelected").val() + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
+                    $("#recordStatus").html(recordString);
+                    socket.emit('record', {
+                        record: recordString
+                    });
+                    trainingSetCount[$("#keySelected option:selected").html()] = trainingSetCount[$("#keySelected option:selected").html()] + 1;
+                    $("#count").html(trainingSetCount[$("#keySelected option:selected").html()]);
+                    if(trainingSetCount[$("#keySelected option:selected").html()] == Number(countInput)){
+                        clearInterval(time);
+                    }
+                }, 100);
+            
+                        
+
+            console.log(trainingSetCount);
 
         });
-        
-        $("#keySelected").change(function(){
+
+        $("#keySelected").change(function() {
             $("#count").html(trainingSetCount[$("#keySelected option:selected").html()])
-console.log(trainingSetCount);
+            console.log(trainingSetCount);
         });
-        
+
         socket.on('result', function(data) {
-            $("#result").html(data.result);
+            //            $("#result").html(data.result);
+            //            console.log(data.result);
+            for (var i = 0; i < $("#keySelected option").length; i++) {
+                if (data.result == $("#keySelected option")[i].value) {
+                    $("#result").html($("#keySelected option")[i].innerHTML);
+                    break;
+                }
+            }
         });
-        
-        $("#startBtn").click(function(){
-            socket.emit('modelname', { modelname: $("input[name='modelname']").val() });
+
+        $("#startBtn").click(function() {
+            socket.emit('modelname', {
+                modelname: $("input[name='modelname']").val()
+            });
         });
-        
-        function resetCountArray(){
-            for(i=0;i<$("#keySelected > option").length;i++){
-            trainingSetCount[$("#keySelected" + " option:eq(" + i +")").text()] = 0;
+
+        function resetCountArray() {
+            for (i = 0; i < $("#keySelected > option").length; i++) {
+                trainingSetCount[$("#keySelected" + " option:eq(" + i + ")").text()] = 0;
             }
         }
-        
     </script>
 
 
