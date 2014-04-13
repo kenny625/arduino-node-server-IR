@@ -129,8 +129,8 @@
             document.getElementById("sensorValue11").innerHTML = sensorValue11;
             document.getElementById("sensorValue12").innerHTML = sensorValue12;
 
-                        var recordString = "0 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
-//            var recordString = "0" + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
+//                        var recordString = "0 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
+            var recordString = "0" + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
             socket.emit('predictData', {
                 predictData: recordString
             });
@@ -150,9 +150,9 @@
             
                 var time = setInterval(function() {
                     
-                    var recordString = $("#keySelected").val() + " 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
+//                    var recordString = $("#keySelected").val() + " 1:" + Number(sensorValue1) + " 2:" + Number(sensorValue2) + " 3:" + Number(sensorValue3)+ " 4:" + Number(sensorValue4) + " 5:" + Number(sensorValue5) + " 6:" + Number(sensorValue6)+ " 7:" + Number(sensorValue7) + " 8:" + Number(sensorValue8) + " 9:" + Number(sensorValue9)+ " 10:" + Number(sensorValue10) + " 11:" + Number(sensorValue11) + " 12:" + Number(sensorValue12);
                     
-//                    var recordString = $("#keySelected").val() + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
+                    var recordString = $("#keySelected").val() + " 2:" + Number(sensorValue2) + " 4:" + Number(sensorValue4) + " 6:" + Number(sensorValue6) + " 8:" + Number(sensorValue8) + " 10:" + Number(sensorValue10) + " 12:" + Number(sensorValue12);
                     $("#recordStatus").html(recordString);
                     socket.emit('record', {
                         record: recordString
