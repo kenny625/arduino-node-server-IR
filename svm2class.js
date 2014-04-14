@@ -3,11 +3,12 @@ var exec = require('child_process').exec;
 var child;
 var trainInputPath;
 var trainInputFolder = '\/Volumes\/RamDisk\/2class\/';
-var trainSourcePath = '\/Volumes\/RamDisk\/26key50';
-var testDataPath = '\/Volumes\/RamDisk\/26key50test';
-var testDataScalePath = '\/Volumes\/RamDisk\/26key50testscale';
+var trainSourcePath = '\/Volumes\/RamDisk\/test10';
+var testDataPath = '\/Volumes\/RamDisk\/train10';
+var testDataScalePath = '\/Volumes\/RamDisk\/test10scale';
 var resultPath = '\/Volumes\/RamDisk\/result';
 var scaledTestData;
+var testClass = new Array();
 //var testDataScalePath = '\/Volumes\/RamDisk\/testDataScale';
 var fs = require('fs');
 var SVMclass = process.argv[2];
@@ -18,8 +19,6 @@ var execSync = require("exec-sync");
 //});
 
 
-
-//var lines = fs.readFileSync(testDataScalePath).toString().split('\n');
 
 
 function exeCmd(command) {
@@ -71,7 +70,8 @@ var func1 = function (callback) {
             }
             appendToFile(lines[i], trainInputPath);
         }
-        scaleAndTrain(SVMclass);
+//        setTimeout(function(){scaleAndTrain(SVMclass)},2000);
+        
         //    execSync('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + trainInputPath + ' > ' +  trainInputFolder + SVMclass + 'scale');
         //    console.log('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + trainInputPath + ' > ' +  trainInputFolder + SVMclass + 'scale');
         //    execSync('/Volumes/RamDisk/libsvm-3.17/svm-train -b 1 ' + trainInputFolder + SVMclass + 'scale ' + trainInputFolder + SVMclass + '.model');
@@ -86,69 +86,88 @@ var func1 = function (callback) {
         //    });
     }
     (callback && typeof (callback) === "function") && callback();
+    
 }
 
     function scaleAndTrain(SVMclass) {
-        child = exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + trainInputPath + ' > ' + trainInputFolder + SVMclass + 'scale', function (error, stdout, stderr) {
-            exec('/Volumes/RamDisk/libsvm-3.17/svm-train -b 1 ' + trainInputFolder + SVMclass + 'scale ' + trainInputFolder + SVMclass + '.model', function (error, stdout, stderr) {
-//                console.log('/Volumes/RamDisk/libsvm-3.17/svm-train -b 1 ' + trainInputFolder + SVMclass + 'scale ' + trainInputFolder + SVMclass + '.model');
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-            });
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            }
-        });
+//        child = exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + trainInputPath + ' > ' + trainInputFolder + SVMclass + 'scale', function (error, stdout, stderr) {
+//            exec('/Volumes/RamDisk/libsvm-3.17/svm-train -b 1 ' + trainInputFolder + SVMclass + 'scale ' + trainInputFolder + SVMclass + '.model', function (error, stdout, stderr) {
+//                //                console.log('/Volumes/RamDisk/libsvm-3.17/svm-train -b 1 ' + trainInputFolder + SVMclass + 'scale ' + trainInputFolder + SVMclass + '.model');
+//                if (error !== null) {
+//                    console.log('exec error: ' + error);
+//                }
+//            });
+//            if (error !== null) {
+//                console.log('exec error: ' + error);
+//            }
+//        });
     }
 
 var func2 = function () {
-    exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + testDataPath + ' > ' + testDataScalePath, function (error, stdout, stderr) {
-        
-
-        predictLoop(postProcessing);
-        
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    });
-    //    execSync('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + testDataPath + ' > ' +  testDataScalePath);
-    //exeCmd('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + testDataPath + ' > ' +  testDataScalePath);
+//    exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + testDataPath + ' > ' + testDataScalePath, function (error, stdout, stderr) {
+//
+//
+//        predictLoop(postProcessing);
+//
+//        if (error !== null) {
+//            console.log('exec error: ' + error);
+//        }
+//    });
 
 }
 
 func1(func2);
 
 function predict(i) {
-    exec('/Volumes/RamDisk/libsvm-3.17/svm-predict -b 1 ' + testDataScalePath + ' ' + trainInputFolder + i + '.model ' + trainInputFolder + 'result' + i, function (error, stdout, stderr) {
-//console.log('/Volumes/RamDisk/libsvm-3.17/svm-predict -b 1 ' + testDataScalePath + ' ' + trainInputFolder + i + '.model ' + trainInputFolder + 'result' + i);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    });
+//    exec('/Volumes/RamDisk/libsvm-3.17/svm-predict -b 1 ' + testDataScalePath + ' ' + trainInputFolder + i + '.model ' + trainInputFolder + 'result' + i, function (error, stdout, stderr) {
+//        if (error !== null) {
+//            console.log('exec error: ' + error);
+//        }
+//    });
 }
 
-function predictLoop(callback){
-    for (var i = 1; i <= 26; i++) {
-            predict(i);
-        }
-    (callback && typeof (callback) === "function") && callback();
+function predictLoop(callback) {
+//    for (var i = 1; i <= 26; i++) {
+//        predict(i);
+//    }
+//    (callback && typeof (callback) === "function") && callback();
 }
 
-function postProcessing(){
+function postProcessing() {
     scaledTestData = fs.readFileSync(testDataScalePath).toString().split('\n');
-for(var i=0; i<scaledTestData.length; i++){
-    console.log(scaledTestData[i].split(' ')[0]);
-}
+    for (var i = 0; i < scaledTestData.length - 1; i++) {
+        testClass.push(scaledTestData[i].split(' ')[0]);
+    }
+
     var results = new Array();
-for(var i=1; i<=26 ;i++){
-    results[i] = fs.readFileSync(trainInputFolder + 'result' + i).toString().split('\n');  
-}
+    for (var i = 1; i <= 26; i++) {
+        results[i] = fs.readFileSync(trainInputFolder + 'result' + i).toString().split('\n');
+//        console.log(i);
+    }
+    
+//    results[26] = fs.readFileSync(trainInputFolder + 'result' + 26).toString().split('\n');
+    
+    for(var i=1;i<=26;i++){
+//        console.log(results[i][0]);
+    }
 
+    for (var i = 1; i < scaledTestData.length - 1; i++) {
+        var maxProb = 0;
+        for (var j = 1; j <= 26; j++) {
+//            console.log(i+' '+results[26][i]);
+//            if (results[j][i].split(' ')[0] == '1') {
+//                if(Number(results[j][i].split(' ')[2])){}
+//            }
+        }
 
-console.log(results[1][1].split(' ')[0]);
-console.log(results[1][1].split(' ')[1]);
-console.log(results[1][1].split(' ')[2]);
+    }
+//    setInterval( function(){console.log(results[26].length)},1000);
+   
+    
+//console.log(results[26].length);
+//    console.log(results[1][1].split(' ')[0]);
+//    console.log(results[1][1].split(' ')[1]);
+//    console.log(results[1][1].split(' ')[2]);
 }
 
 

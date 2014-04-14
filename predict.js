@@ -48,21 +48,19 @@ io.sockets.on('connection', function (socket) {
       appendToFile(data.record + "\n", trainInputPath);
       console.log(data);
   });
-    
+    var count = 0;
     socket.on('predictData', function (data) {
         if (start == true) {
-            var lines = fs.readFileSync(trainInputPath);
-            writeToFile(lines, scaleInputPath);
-            appendToFile(data.predictData, scaleInputPath);
+            count++;
+            if(count == 1){
+                var lines = fs.readFileSync(trainInputPath);
+                writeToFile(lines, scaleInputPath);
+            }
+            appendToFile(data.predictData + '\n', scaleInputPath);
             child = exec('/Volumes/RamDisk/libsvm-3.17/svm-scale -l 0 -u 1 ' + scaleInputPath, function (error, stdout, stderr) {
                 var out = stdout.split('\n');
                 writeToFile(out[out.length - 2], testDataScalePath);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-            });
-            
-            child = exec('/Volumes/RamDisk/libsvm-3.17/svm-predict ' + testDataScalePath + ' ' + modelPath + ' ' + outputPath, function (error, stdout, stderr) {
+                exec('/Volumes/RamDisk/libsvm-3.17/svm-predict ' + testDataScalePath + ' ' + modelPath + ' ' + outputPath, function (error, stdout, stderr) {
                 console.log(fs.readFileSync(outputPath).toString().split('\n')[0]);
                 socket.emit('result', { result: fs.readFileSync(outputPath).toString().split('\n')[0] });
                 //                            sys.print('stdout: ' + stdout);
@@ -70,6 +68,12 @@ io.sockets.on('connection', function (socket) {
                     console.log('exec error: ' + error);
                 }
             });
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+            
+            
 
         }
     });
